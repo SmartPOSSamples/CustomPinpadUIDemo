@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name" translatable="false">CustomPINPad</string>
+
+    <string name="info_hint"></string>
+
+    <string name="settings_title">Settings</string>
+
+    <string name="test1">Example</string>
+    <string name="test2">DebugKeyboardTlvs</string>
+    <string name="test3">Test3</string>
+    <string name="test4">Test4</string>
+    <string name="log_clean">Clear_Logs</string>
+    <string name="test5">test5</string>
+
+    <string name="logcat_output">Debug Screen</string>
+
+    <string name="warning_title" translatable="false">Error:</string>
+    <string name="confirm">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="operating_tips">Operating Tips</string>
+    <string name="operating_tips_loading">Loading ... </string>
+
+</resources>

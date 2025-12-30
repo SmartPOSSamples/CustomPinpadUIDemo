@@ -1,0 +1,61 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    namespace "com.cloudpos.pinpad.newui"
+    defaultConfig {
+        vectorDrawables.useSupportLibrary = true
+        applicationId "com.cloudpos.pinpad.newui"
+        minSdkVersion 23
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+            java {
+                srcDirs 'src/main/java', 'src_keyboardtlvs/main/java'
+            }
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+//signingConfigs {
+//    release {
+//        keyAlias 'androiddebugkey'
+//        keyPassword 'android'
+//        storeFile file('/home/pengli/disk256/develop_environment/script/signedtools/lipengdevkeyNew.jks')
+//        storePassword 'android'
+//    }
+//    config {
+//        keyAlias 'androiddebugkey'
+//        keyPassword 'android'
+//        storeFile file('/home/pengli/disk256/develop_environment/script/signedtools/lipengdevkeyNew.jks')
+//        storePassword 'android'
+//    }
+//}
+
+dependencies {
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+//    implementation files('libs/fastjson-1.2.34.jar')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:23.4.0'
+    testImplementation 'junit:junit:4.12'
+//    implementation project(':library')
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}

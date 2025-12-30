@@ -1,0 +1,19 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+    <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="tv_style"> 
+        <!--android:gravity="center_vertical|end"-->
+        <item name="android:gravity">center_vertical|start</item>
+        <!--android:singleLine = "true"-->
+        <item name="android:singleLine">true</item>
+        <!-- android:textStyle="bold" -->
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>

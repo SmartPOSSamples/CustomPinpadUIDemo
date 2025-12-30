@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorBlue">#015EC6</color>
+
+    <color name="split_line_color">#ffc5c5c5</color>
+    <color name="argb_ff66cc00">#ff66cc00</color>
+    <color name="argb_ffffffff">#ffffffff</color>
+    <color name="argb_ff000000">#ff000000</color>
+    <color name="argb_ffcccccc">#ffcccccc</color>
+    <color name="argb_ff333333">#ff333333</color>
+    <color name="argb_ff339933">#ff339933</color>
+    <color name="argb_ff336633">#ff336633</color>
+    <color name="argb_ff999999">#ff999999</color>
+    <color name="argb_ff666666">#ff666666</color>
+    <color name="argb_ff00cccc">#ff00cccc</color>
+    <color name="argb_ff006666">#ff006666</color>
+    <color name="argb_ff333300">#ff333300</color>
+    <color name="argb_ff666600">#ff666600</color>
+    <color name="argb_ffff3948">#ffff3948</color>
+    <color name="bt_press">#FF0859DA</color>
+    <color name="bt_default">#FF1CACE2</color>
+    <color name="transparent">#00000000</color>
+    <color name="RED">#FF3948</color>
+    <color name="GREEN">#25C16A</color>
+    <color name="BLUE">#0000FF</color>
+    <color name="WHITE">#FFFFFFFF</color>
+    <color name="BLACK">#FF000000</color>
+
+    <color name="Deault_Display_Background_Color">#6C8C4F</color>
+
+
+
+</resources>

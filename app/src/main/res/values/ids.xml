@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="log_default" type="id"/>
+    <item name="log_failed" type="id"/>
+    <item name="log_success" type="id"/>
+    <item name="log_clean" type="id"/>
+
+    <item name="show_waitting_ui" type="id"/>
+    <item name="cancel_waitting_ui" type="id"/>
+    <item name="show_success_hint_dialog" type="id"/>
+    <item name="show_failed_hint_dialog" type="id"/>
+    <item name="set_unlock_flag" type="id"/>
+    <item name="set_defalut_flag" type="id"/>
+
+    <item name="update_bitmap" type="id"/>
+    <item name="notif_msg" type="id"/>
+    <item name="topPanel" type="id"/>
+</resources>
