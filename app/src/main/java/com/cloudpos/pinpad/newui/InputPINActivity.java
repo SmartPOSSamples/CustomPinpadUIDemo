@@ -31,6 +31,9 @@ public class InputPINActivity extends Activity {
     TextView pinLine;
     private Handler refreshHandler;
 
+    private int[][] keyLocs = null;
+    private int[][] functionKeyLocs = null;
+
     PINPadDevice device;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,9 @@ public class InputPINActivity extends Activity {
 
         setContentView(R.layout.input_pin);
         pinLine = (TextView)this.findViewById(R.id.pin_line);
+
+        keyLocs = (int[][]) getIntent().getSerializableExtra("keyLocs");
+        functionKeyLocs = (int[][]) getIntent().getSerializableExtra("functionKeyLocs");
 
         device = (PINPadDevice) POSTerminal.getInstance(this).getDevice("com.cloudpos.device.pinpad");
 
@@ -63,8 +69,12 @@ public class InputPINActivity extends Activity {
                         device.setPINLength(MAX_PIN_LEN , MAX_PIN_LEN);
                         KeyInfo keyInfo = new KeyInfo(PINPadDevice.KEY_TYPE_MK_SK, 0, 0, AlgorithmConstants.ALG_3DES);
 
-//                        byte[] tlvs = readRawBytes( R.raw.gui);
-                        byte[] tlvs = TlvsUiValidator.getInstance().createKeyBoardTlvs(InputPINActivity.this);
+                        byte[] tlvs;
+                        if (keyLocs != null || functionKeyLocs != null) {
+                            tlvs = TlvsUiValidator.getInstance().getTlvsFromArrays(InputPINActivity.this, keyLocs, functionKeyLocs, R.drawable.below3);
+                        } else {
+                            tlvs = TlvsUiValidator.getInstance().createKeyBoardTlvs(InputPINActivity.this, R.drawable.below3);
+                        }
                         Logger.debug("run(%s)", tlvs.length);
                         device.setGUIConfiguration(6, tlvs);
 

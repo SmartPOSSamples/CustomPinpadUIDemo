@@ -29,6 +29,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".InputPINActivity" />
+        <activity android:name=".ImageViewActivity" />
     </application>
 
 </manifest>

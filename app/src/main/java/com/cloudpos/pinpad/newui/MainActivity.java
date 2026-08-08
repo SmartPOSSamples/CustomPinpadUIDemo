@@ -28,11 +28,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Button btn_test1 = (Button) this.findViewById(R.id.btn_test1);
         Button btn_test2 = (Button) this.findViewById(R.id.btn_test2);
         Button btn_test3 = (Button) this.findViewById(R.id.btn_test3);
+        Button btn_test4 = (Button) this.findViewById(R.id.btn_test4);
 
         Button btn_log_clean = (Button) this.findViewById(R.id.btn_log_clean);
         btn_test1.setOnClickListener(this);
         btn_test2.setOnClickListener(this);
         btn_test3.setOnClickListener(this);
+        btn_test4.setOnClickListener(this);
         btn_log_clean.setOnClickListener(this);
 
         log_text = (TextView) this.findViewById(R.id.text_result);
@@ -61,6 +63,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         } else if (index == R.id.btn_test3) {
 
+        } else if (index == R.id.btn_test4) {
+            Intent intent = new Intent(this, ImageViewActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            this.startActivity(intent);
         } else if (index == R.id.btn_log_clean) {
             mHandler.sendEmptyMessage(R.id.log_clean);
         }

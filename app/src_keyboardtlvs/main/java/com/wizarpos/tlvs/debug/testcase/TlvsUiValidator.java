@@ -2,7 +2,9 @@ package com.wizarpos.tlvs.debug.testcase;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.View;
 
 import com.cloudpos.pinpad.newui.R;
@@ -16,7 +18,7 @@ import com.wizarpos.tlvs.debug.ui.NewUiLayoutHelperImpl;
 
 public class TlvsUiValidator  {
     private static volatile TlvsUiValidator instance = null;
-
+    private int[] cancelKeyLocs = new int[]{ 0, 0, 190, 100};
 
     public static TlvsUiValidator getInstance() {
         if (instance == null) {
@@ -29,37 +31,45 @@ public class TlvsUiValidator  {
         return instance;
     }
 
+    public int[] getImageSize(Context context, int resId) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(context.getResources(), resId, options);
+        return new int[]{options.outWidth, options.outHeight};
+    }
+
     public byte[] createKeyBoardTlvs(Context context){
-        //            key0, key1, key2, key3, key4, key5, key6, key7, key8, key9,
-//        468 * 468 (156 * 156)
+        return createKeyBoardTlvs(context, R.drawable.below3);
+    }
+
+    public byte[] createKeyBoardTlvs(Context context, int resId){
+        int[] imgSize = getImageSize(context, resId);
+        Log.d("keyBoardImg", "w=" + imgSize[0] + " h=" + imgSize[1]);
+
         int[][] keyLocs = new int[][]{
-                new int[]{ 296, 954, 424, 1082 },   // Key 0   156 * 156  We must start with it Key0
-
-                new int[]{ 145, 551, 273, 679 },    // Key 1    156 * 156
-                new int[]{ 296, 551, 424, 679 },    // key 2    156 * 156
-                new int[]{ 446, 551, 574, 679 },    // key 3    156 * 156
-
-                new int[]{ 145, 684, 273, 812 },    // key 4    156 * 156
-                new int[]{ 296, 684, 424, 812 },    // key 5    156 * 156
-                new int[]{ 446, 684, 574, 812 },    // key 6    156 * 156
-
-                new int[]{ 145, 820, 273, 948 },    // key 7
-                new int[]{ 296, 820, 424, 948 },    // key 8
-                new int[]{ 446, 820, 574, 948},     // key 9
+                {174, 260, 306, 330}/*Key0*/,
+                {25, 20, 157, 90}/*Key1*/, {174, 20, 306, 90}/*Key2*/, {323, 20, 455, 90}/*Key3*/,
+                {25, 100, 157, 170}/*Key4*/, {174, 100, 306, 170}/*Key5*/, {323, 100, 455, 170}/*Key6*/,
+                {25, 180, 157, 250}/*Key7*/, {174, 180, 306, 250}/*Key8*/, {323, 180, 455, 250}/*Key9*/
         };
-//            ok clear cancel
-        int[][]functionKeyLocs = new int[][]{
-                { 145, 954, 273, 1082},   //ok
-                { 446, 954, 574, 1082 },   //clear
-                { 0, 0, 190, 100 },     //cancel
+
+        int[][] functionKeyLocs = new int[][]{
+                // Key                 BackSpace(Clear)      Cancel
+                {25, 260, 157, 330},  {323, 260, 455, 330}, null//,  { 0, 0-uiLoc[1], 190, 100-uiLoc[1] }
         };
-        Point screenSize = DataParser.getScreenSize(context);
-        int[] uiLoc = new int[]{0, screenSize.y - 761/**bitmap's height*/, screenSize.x, screenSize.y};
+
+
         int[] inputTextLoc = null;//No need to use
 
-        byte[] tlvs = getTlvs(context, uiLoc, inputTextLoc, keyLocs, functionKeyLocs, R.drawable.below);
+        Point screenSize = DataParser.getScreenSize(context);
 
-        return tlvs;
+        int[] uiLoc = new int[]{0, screenSize.y - imgSize[1], screenSize.x, screenSize.y};
+
+        getLocRelativeToUi(functionKeyLocs, uiLoc)[2] = cancelKeyLocs;
+
+        return getTlvs(context, uiLoc, inputTextLoc,
+                getLocRelativeToUi(keyLocs, uiLoc),
+                functionKeyLocs, resId);
     }
 
 
@@ -68,13 +78,46 @@ public class TlvsUiValidator  {
         debugUI(context, tlvs);
     }
 
+    public void showTlvsFromArrays(Context context, int[][] keyLocs, int[][] functionKeyLocs) {
+        debugUI(context, getTlvsFromArrays(context, keyLocs, functionKeyLocs));
+    }
+
+    public byte[] getTlvsFromArrays(Context context, int[][] keyLocs, int[][] functionKeyLocs) {
+        return getTlvsFromArrays(context, keyLocs, functionKeyLocs, R.drawable.below3);
+    }
+
+    public byte[] getTlvsFromArrays(Context context, int[][] keyLocs, int[][] functionKeyLocs, int resId) {
+        int[] imgSize = getImageSize(context, resId);
+        Log.d("keyBoardImg", "w=" + imgSize[0] + " h=" + imgSize[1]);
+        Point screenSize = DataParser.getScreenSize(context);
+        int[] uiLoc = new int[]{0, screenSize.y - imgSize[1], screenSize.x, screenSize.y};
+        getLocRelativeToUi(functionKeyLocs, uiLoc)[2] = cancelKeyLocs;
+        return getTlvs(context, uiLoc, null,
+                getLocRelativeToUi(keyLocs, uiLoc),
+                functionKeyLocs, resId);
+    }
+
+
+    private int[][] getLocRelativeToUi(int[][] keyLocs, int[] uiLoc) {
+        if (keyLocs == null || uiLoc == null || uiLoc.length < 2) {
+            return keyLocs;
+        }
+        int offsetX = uiLoc[0];
+        int offsetY = uiLoc[1];
+        for (int i = 0; i < keyLocs.length; i++) {
+            int[] loc = keyLocs[i];
+            if(loc == null) break;
+            loc[0] = loc[0] + offsetX;
+            loc[1] = loc[1] + offsetY;
+            loc[2] = loc[2] + offsetX;
+            loc[3] = loc[3] + offsetY;
+        }
+        return keyLocs;
+    }
 
     public byte[] getTlvs(final Context context, int[] uiLoc, int[] inputTextLoc, int[][] keyLocs, int[][]functionKeyLocs, int resId){
-
         try {
-            byte[] tlvs = TlvGenerator.getInstance().generateTlvs(context, resId, uiLoc, inputTextLoc, keyLocs, functionKeyLocs);
-
-            return tlvs;
+            return TlvGenerator.getInstance().generateTlvs(context, resId, uiLoc, inputTextLoc, keyLocs, functionKeyLocs);
         } catch (Exception e) {
             e.printStackTrace();
         }

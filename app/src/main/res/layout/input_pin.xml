@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:autofit="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout"
     android:layout_width="match_parent"
-    android:layout_height="519px"
-    android:layoutDirection="rtl"
-    android:background="@drawable/top"
+    android:layout_height="150px"
     android:orientation="vertical" >
-    <!--	160	=	100(密码键盘显示区域)	+	35(提示框显示区域)	 -->
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="320px"
         android:orientation="vertical" >
         <TextView
             android:id="@+id/hint"
             android:layout_width="match_parent"
-            android:layout_height="50px"
+            android:layout_height="30px"
             android:gravity="center"
             android:text="Please Enter Your Card PIN"
             android:textColor="@color/colorBlue"
@@ -30,23 +25,23 @@
             <TextView
                 android:id="@+id/text_line1"
                 android:layout_width="match_parent"
-                android:layout_height="75px"
+                android:layout_height="40px"
                 android:gravity="center"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:text="1***238965"
                 android:singleLine="true"
-                android:maxLines="2"/>
+                android:maxLines="1"/>
 
             <TextView
                 android:id="@+id/pin_line"
                 style="@style/tv_style"
                 android:layout_width="match_parent"
-                android:layout_height="75px"
+                android:layout_height="45px"
                 android:paddingRight="10dip"
                 android:gravity="center"
                 android:text="●●●●●●"
                 android:typeface="monospace"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
