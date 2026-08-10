@@ -1,6 +1,8 @@
 package com.cloudpos.pinpad.newui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -52,9 +54,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         int index = v.getId();
         if (index == R.id.btn_test1) {
-            Intent intent = new Intent(this, InputPINActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            this.startActivity(intent);
+            showRawTlvSelector();
         } else if (index == R.id.btn_test2) {
             try {
                 TlvsUiValidator.getInstance().showTlvsLocalUi(this);
@@ -70,6 +70,42 @@ public class MainActivity extends Activity implements View.OnClickListener {
         } else if (index == R.id.btn_log_clean) {
             mHandler.sendEmptyMessage(R.id.log_clean);
         }
+    }
+
+    private void showRawTlvSelector() {
+        int checked = 0;
+        for (int i = 0; i < RawTlvSource.RAW_TLV_RES_IDS.length; i++) {
+            if (RawTlvSource.RAW_TLV_RES_IDS[i] == RawTlvSource.selectedRawResId) {
+                checked = i;
+                break;
+            }
+        }
+        new AlertDialog.Builder(this)
+                .setTitle("Select raw tlv for InputPINActivity")
+                .setSingleChoiceItems(RawTlvSource.RAW_TLV_NAMES, checked,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                RawTlvSource.selectedRawResId = RawTlvSource.RAW_TLV_RES_IDS[which];
+                                dialog.dismiss();
+                                String name = RawTlvSource.RAW_TLV_NAMES[which];
+                                String hint = which == RawTlvSource.RAW_TLV_NAMES.length - 1
+                                        ? "tlvs will be generated (default)"
+                                        : "tlvs will be loaded from " + name;
+                                if (mHandler != null) {
+                                    mHandler.sendMessage(mHandler.obtainMessage(R.id.log_success, hint));
+                                }
+                                startInputPINActivity();
+                            }
+                        })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void startInputPINActivity() {
+        Intent intent = new Intent(this, InputPINActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(intent);
     }
 
 

@@ -70,7 +70,9 @@ public class InputPINActivity extends Activity {
                         KeyInfo keyInfo = new KeyInfo(PINPadDevice.KEY_TYPE_MK_SK, 0, 0, AlgorithmConstants.ALG_3DES);
 
                         byte[] tlvs;
-                        if (keyLocs != null || functionKeyLocs != null) {
+                        if (RawTlvSource.selectedRawResId != 0) {
+                            tlvs = readRawBytes(RawTlvSource.selectedRawResId);
+                        } else if (keyLocs != null || functionKeyLocs != null) {
                             tlvs = TlvsUiValidator.getInstance().getTlvsFromArrays(InputPINActivity.this, keyLocs, functionKeyLocs, R.drawable.below3);
                         } else {
                             tlvs = TlvsUiValidator.getInstance().createKeyBoardTlvs(InputPINActivity.this, R.drawable.below3);
@@ -86,6 +88,8 @@ public class InputPINActivity extends Activity {
                             Logger.debug("PIN:%s", ByteConvert.bytesToHexString(pinPadResult.getEncryptedPINBlock()));
                         }
                     } catch (DeviceException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }finally {
                         InputPINActivity.this.finish();
